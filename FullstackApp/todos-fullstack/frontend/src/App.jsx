@@ -57,12 +57,29 @@ useEffect(() => {
    finally {
     setLoading(false)
    }
+  }
 
+  
+   async function handleDelete(id){
+
+    try {
+      setLoading(true)
+      await fetch (`${BASE_URL}/${id}`, {
+        method: 'DELETE',
+     })
+       setTodos(todos.filter((todo) => todo._id !== id))
+    } catch (error) {
+      console.error(error)
+    }
+    finally {
+      setLoading(false)
+    }
+   }
 
   //  console.log(JSON.stringify(body))
   //  console.log(textRef.current.value)
   //  console.log(completeRef.current.checked)
- } 
+ 
   return (
     <>
       <h1>Todo List</h1>
@@ -82,10 +99,13 @@ useEffect(() => {
       { isLoading ? <p>Loading...</p> 
       :
       todos.map((todo) => 
-          <p key={todo._id}
-          style = {{textDecoration: todo.completed ? 'line-through' : ''}}>{todo.text}</p>
-        )}
-      {JSON.stringify(todos)}
+          <div key={todo._id}>
+            <p 
+            style = {{textDecoration: todo.completed ? 'line-through' : ''}}>{todo.text}</p>
+            <button onClick= {()=> handleDelete(todo._id)}> X </button>
+          </div>
+    
+        )}     
     </>
   )
 }
