@@ -1,25 +1,28 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
-let starterTodos = [
-  {
-    text: "finish frontend",
-    complete: false,
-    user: 'bob'
-  },
-  {
-    text: "sleep",
-    complete: true,
-    user: 'bob'
-  }
-]
+
 
 function App() {
  
-  const [todos, setTodos] = useState(starterTodos)
+  const [todos, setTodos] = useState([])
 
  const textRef = useRef()
  const completeRef = useRef()  
+
+useEffect(() => {
+  async function getTodos (){
+    try {
+      const response = await fetch('http://localhost:8080/api/todos')
+      const data = await response.json()
+      console.log(data)
+      setTodos(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  getTodos()
+},[])
 
  async function handleSubmit(e){
    e.preventDefault()
