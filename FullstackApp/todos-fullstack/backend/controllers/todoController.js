@@ -1,6 +1,6 @@
-import Todo from '../models/TodoModel'
+import Todo from '../models/TodoModel.js'
 
-const getTodos = async (req, res) => {
+export const getTodos = async (req, res) => {
     try {
         const todos = await Todo.find()
         res.status(200).json(todos)
@@ -9,7 +9,4 @@ const getTodos = async (req, res) => {
          console.error('No data fetch', error)
          res.status(400).json(error)
      }
-}
-export default {
-    getTodos
 }

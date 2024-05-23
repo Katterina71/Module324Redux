@@ -1,8 +1,8 @@
 import express from 'express'
-import todoController from '../controllers/todoController';
+import {getTodos} from '../controllers/todoController.js';
 
 const router = express.Router(); 
 
-router.get('/api/todos', todoController)
+router.get('/', getTodos)
 
 export default router
