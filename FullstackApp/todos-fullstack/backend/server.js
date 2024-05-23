@@ -8,6 +8,7 @@ const app = express()
 const PORT = 8080
 
 //middleware
+app.use(express.json()) //give access to request body
 app.use('/api/todos', todoRoutes) //url matches with this route
 
 app.get('/', (req,res) => {
