@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
 
-
+const BASE_URL = 'http://localhost:8080/api/todos'
 
 function App() {
  
+  const [isLoading, setLoading] = useState(false)
   const [todos, setTodos] = useState([])
 
  const textRef = useRef()
@@ -13,12 +14,18 @@ function App() {
 useEffect(() => {
   async function getTodos (){
     try {
-      const response = await fetch('http://localhost:8080/api/todos')
+      setLoading(true)
+      const response = await fetch(BASE_URL)
       const data = await response.json()
       console.log(data)
       setTodos(data)
     } catch (error) {
       console.error(error)
+ 
+    }
+    finally {
+      setLoading(false)
+      // setTimeout(()=> setLoading(false), 3000)
     }
   }
   getTodos()
@@ -26,8 +33,35 @@ useEffect(() => {
 
  async function handleSubmit(e){
    e.preventDefault()
-   console.log(textRef.current.value)
-   console.log(completeRef.current.checked)
+
+   const body = {
+    text: textRef.current.value,
+    completed: completeRef.current.checked,
+    user: 'bob'
+   }
+   try {
+    setLoading(true)
+   const response = await fetch (BASE_URL, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+   })
+     const newTodo = await response.json();
+     setTodos([...todos, newTodo])
+
+   } catch (error) {
+     console.error(error)
+   }
+   finally {
+    setLoading(false)
+   }
+
+
+  //  console.log(JSON.stringify(body))
+  //  console.log(textRef.current.value)
+  //  console.log(completeRef.current.checked)
  } 
   return (
     <>
@@ -45,11 +79,13 @@ useEffect(() => {
         <button>Add ToDo</button>
       </form>
       <br/> <br/>
-     
-      {todos.map((todo) => 
-          <p key={todo.text}
-          style = {{textDecoration: todo.complete ? 'line-through' : ''}}>{todo.text}</p>
+      { isLoading ? <p>Loading...</p> 
+      :
+      todos.map((todo) => 
+          <p key={todo._id}
+          style = {{textDecoration: todo.completed ? 'line-through' : ''}}>{todo.text}</p>
         )}
+      {JSON.stringify(todos)}
     </>
   )
 }
