@@ -1,11 +1,15 @@
 import '../App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import randomLibrary from "randomLibrary"
 function Main() {
 
   const [text, setText]=useState({text:"Level 1 done"})
   // Not need setText
-  // setText('')
+
+  useEffect(() => {
+    setText(text)
+  }, [])
+  
 
 
   return (
