@@ -99,7 +99,7 @@ useEffect(() => {
       { isLoading ? <p>Loading...</p> 
       :
       todos.map((todo) => 
-          <div key={todo._id}>
+          <div key={todo._id} className='todo-item '>
             <p 
             style = {{textDecoration: todo.completed ? 'line-through' : ''}}>{todo.text}</p>
             <button onClick= {()=> handleDelete(todo._id)}> X </button>
