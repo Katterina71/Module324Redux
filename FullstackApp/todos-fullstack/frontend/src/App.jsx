@@ -90,6 +90,7 @@ useEffect(() => {
           <input type="text" ref={textRef} />
         </label>
         <label>
+          Task complete:
           <input type="checkbox" ref={completeRef}/>
         </label>
         <br/> <br/>
