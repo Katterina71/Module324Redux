@@ -3,6 +3,7 @@ import  'dotenv/config'
 
 import mongoConfig from './config.js'
 import Todo from './models/TodoModel.js'
+import moduleName from 'module'
 
 const app = express();
 const PORT = 8080
@@ -13,16 +14,7 @@ app.get('/', (req,res) => {
 
 
 app.get('/api/todos', async (req,res)=>{
-    try {
-       const todos = await Todo.find()
-       res.status(200)
-          .json(todos)
-
-        console.log('Success')
-    } catch (error) {
-        console.error('No data fetch', error)
-        res.status(400).json(error)
-    }
+   
 })
 
 app.listen(PORT, ()=> {
